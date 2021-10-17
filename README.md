@@ -1,5 +1,7 @@
 # file_metadata_microservice
 ----
+![An API that receives a file and returns a json](./public/design_sample.png)
+
 ## Stacks
 - Express
 - Ejs
