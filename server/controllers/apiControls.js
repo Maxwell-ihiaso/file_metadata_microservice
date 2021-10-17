@@ -24,7 +24,7 @@ const upload = multer({
 // Handlers 
 const uploadControls = async (req, res, next) =>{
     try {
-        const file = req.file;
+        const file = await req.file;
         if (!file) {
             return res.render('index', {
                 msg: `First select a file to upload`
