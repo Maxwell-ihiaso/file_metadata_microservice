@@ -15,7 +15,7 @@
           Please Upload a File ...
         </p>
         <div class="view">
-          <form enctype="multipart/form-data" method="POST" action="/api/upload">
+          <form enctype="multipart/form-data" method="POST" action="/api/fileanalyse">
             <p id="text"><%= typeof msg === 'undefined' ? '' : msg %></p>
             <input id="upfile" type="file" name="upfile">
             <input id="button" type="submit" value="Upload">
