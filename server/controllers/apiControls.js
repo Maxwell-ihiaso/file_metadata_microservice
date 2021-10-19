@@ -1,7 +1,8 @@
+const FileSchema = require('../Model/FileSchema');
 const createError = require('http-errors');
 const path = require('path');
 const multer = require('multer');
-const { nextTick } = require('process');
+const fs = require('fs');
 
 // multer storage settings 
 const storage = multer.diskStorage({
@@ -17,26 +18,37 @@ const storage = multer.diskStorage({
 const upload = multer({
     storage: storage,
     limits: {
-        fileSize: 1000000
+        fileSize: 5000000
     }
 });
 
 // Handlers 
 const uploadControls = async (req, res, next) =>{
     try {
-        const file = await req.file;
+        const file = req.file;
         if (!file) {
             return res.render('index', {
                 msg: `First select a file to upload`
             })
         }
-    
-        res.status(200).json({
+        
+        const fileAccess = fs.readFileSync(req.file.path);
+        const parseFile = fileAccess.toString('base64');
+        await FileSchema.create({
             "name": file.originalname,
             "type": file.mimetype,
-            "size": file.size
-            })
-
+            "size": file.size,
+            "image": Buffer.from(parseFile, 'base64'),
+            "path": file.path
+        }).then(result => {
+            res
+            .status(200)
+            .json({
+                "name": result.name,
+                "type": result.type,
+                "size": result.size
+                })
+        }).catch(error => {throw createError.InternalServerError(error)})
     } catch (error) {
         next(error)
     }

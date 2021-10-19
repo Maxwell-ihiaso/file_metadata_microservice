@@ -5,6 +5,7 @@ const morgan = require('morgan');
 const indexRoute = require('./server/routes/indexRoute');
 const apiRoute = require('./server/routes/apiRoute');
 require('dotenv').config();
+require('./server/db/connectDB');
 
 
 // Initialize express 
